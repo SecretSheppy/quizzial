@@ -11,6 +11,14 @@ type QPluginData struct {
 	Name string
 }
 
+// QPluginModel defines how QPlugin Question models should be implemented. All QPlugin Question models must implement
+// this interface.
+type QPluginModel interface {
+
+	// GetType returns the type of the model so that a polymorphic association can be created.
+	GetType() string
+}
+
 // QPlugin is a question plugin. All questions must implement the QPlugin interface. Any extra question plugins
 // created must be added to the RegisteredQuestions array in the `qplugins/register.go` file.
 type QPlugin interface {
