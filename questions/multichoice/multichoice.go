@@ -7,15 +7,7 @@ import (
 )
 
 var config = &qplugins.QPluginData{
-	Name: "MultiChoice",
-	TemplatePath: &qplugins.QPluginUserType{
-		Admin: "",
-		User:  "",
-	},
-	JavaScriptPath: &qplugins.QPluginUserType{
-		Admin: "",
-		User:  "",
-	},
+	Name: "multichoice",
 }
 
 type MultiChoice struct {

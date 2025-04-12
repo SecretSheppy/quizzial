@@ -5,18 +5,10 @@ import (
 	"net/http"
 )
 
-// QPluginUserType wraps the Admin and User data in an object
-type QPluginUserType struct {
-	Admin string
-	User  string
-}
-
 // QPluginData stores the paths of the local data required by each QPlugin so that it can be registered and used
 // by the main system.
 type QPluginData struct {
-	Name           string
-	TemplatePath   *QPluginUserType
-	JavaScriptPath *QPluginUserType
+	Name string
 }
 
 // QPlugin is a question plugin. All questions must implement the QPlugin interface. Any extra question plugins
