@@ -23,7 +23,7 @@ type QPlugin interface {
 	Init(db *gorm.DB)
 
 	// Migrate migrates the gorm.Model(s) in to the database if they are not already present.
-	Migrate()
+	Migrate() error
 
 	// SaveQuestionHandler saves the current question configuration into the database.
 	SaveQuestionHandler(w http.ResponseWriter, r *http.Request)
