@@ -12,7 +12,7 @@ var registeredQuestions = []qplugins.QPlugin{
 }
 
 func All() map[string]qplugins.QPlugin {
-	var questions map[string]qplugins.QPlugin
+	var questions = make(map[string]qplugins.QPlugin)
 	for _, plugin := range registeredQuestions {
 		questions[plugin.Data().Name] = plugin
 	}
