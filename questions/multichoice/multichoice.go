@@ -22,8 +22,10 @@ func (m *MultiChoice) Init(db *gorm.DB) {
 	m.DB = db
 }
 
-func (m *MultiChoice) Migrate() {
-
+func (m *MultiChoice) Migrate() error {
+	return m.DB.AutoMigrate(
+		&Option{},
+		&MultiChoiceQuestion{})
 }
 
 func (m *MultiChoice) SaveQuestionHandler(w http.ResponseWriter, r *http.Request) {
