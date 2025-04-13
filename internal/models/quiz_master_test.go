@@ -28,7 +28,7 @@ func TestNewQuizMaster(t *testing.T) {
 			t.Errorf("failed to create new quiz master instance: %v", err)
 		}
 
-		result := db.Debug().Create(qm)
+		result := db.Create(qm)
 		if result.Error != nil {
 			t.Fatal(result.Error)
 		}
@@ -47,7 +47,7 @@ func TestNewQuizMaster(t *testing.T) {
 			t.Errorf("unexpected success creating quiz master with no name")
 		}
 
-		result := db.Debug().Create(qm)
+		result := db.Create(qm)
 		if result.Error == nil {
 			t.Fatal(result.Error)
 		}
@@ -59,7 +59,7 @@ func TestNewQuizMaster(t *testing.T) {
 			t.Errorf("unexpected success creating quiz master with no password")
 		}
 
-		result := db.Debug().Create(qm)
+		result := db.Create(qm)
 		if result.Error == nil {
 			t.Fatal(result.Error)
 		}
@@ -72,7 +72,7 @@ func TestNewQuizMaster(t *testing.T) {
 			t.Fatal(result.Error)
 		}
 
-		result = db.Debug().Delete(qm)
+		result = db.Delete(qm)
 		if result.Error != nil {
 			t.Fatal(result.Error)
 		}

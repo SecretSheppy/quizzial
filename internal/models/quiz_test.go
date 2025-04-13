@@ -28,7 +28,7 @@ func TestNewQuiz(t *testing.T) {
 		t.Errorf("failed to create Frodo Bagins: %v", err)
 	}
 
-	result := db.Debug().Create(&frodo)
+	result := db.Create(&frodo)
 	if result.Error != nil {
 		t.Error(result.Error)
 	}
@@ -39,7 +39,7 @@ func TestNewQuiz(t *testing.T) {
 			t.Errorf("failed to create a new quiz: %v", err)
 		}
 
-		result := db.Debug().Create(&q)
+		result := db.Create(&q)
 		if result.Error != nil {
 			t.Error(result.Error)
 		}
