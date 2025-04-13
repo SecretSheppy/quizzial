@@ -1,11 +1,12 @@
 package models
 
 import (
+	"github.com/SecretSheppy/quizzial/internal/sdbtest"
 	"testing"
 )
 
 func TestNewQuizMaster(t *testing.T) {
-	db, err := setup()
+	db, err := sdbtest.Setup()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -16,7 +17,7 @@ func TestNewQuizMaster(t *testing.T) {
 	}
 
 	t.Cleanup(func() {
-		err = teardown(db)
+		err = sdbtest.Teardown(db)
 		if err != nil {
 			t.Fatal(err)
 		}

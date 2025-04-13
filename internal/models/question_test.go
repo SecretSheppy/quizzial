@@ -1,12 +1,13 @@
 package models
 
 import (
+	"github.com/SecretSheppy/quizzial/internal/sdbtest"
 	"github.com/google/uuid"
 	"testing"
 )
 
 func TestNewQuestion(t *testing.T) {
-	db, err := setup()
+	db, err := sdbtest.Setup()
 	if err != nil {
 		t.Error(err)
 	}
@@ -17,29 +18,29 @@ func TestNewQuestion(t *testing.T) {
 	}
 
 	t.Cleanup(func() {
-		err = teardown(db)
+		err = sdbtest.Teardown(db)
 		if err != nil {
 			t.Error(err)
 		}
 	})
 
-	frodo, err := createTestUser(db, "Frodo Bagins")
+	frodo, err := CreateTestUser(db, "Frodo Bagins")
 	if err != nil {
 		t.Error(err)
 	}
 
-	quiz, err := createTestQuiz(db, frodo.QuizMasterID, "The Lord of the Rings")
+	quiz, err := CreateTestQuiz(db, frodo.QuizMasterID, "The Lord of the Rings")
 	if err != nil {
 		t.Error(err)
 	}
 
-	sec, err := createTestSection(db, quiz.QuizID, "Section 1")
+	sec, err := CreateTestSection(db, quiz.QuizID, "Section 1")
 	if err != nil {
 		t.Error(err)
 	}
 
 	t.Run("Create new question", func(t *testing.T) {
-		question := newQPluginModelTest("hi there")
+		question := NewQPluginModelTest("hi there")
 
 		q, err := NewQuestion(sec.SectionID, question)
 		if err != nil {
@@ -58,7 +59,7 @@ func TestNewQuestion(t *testing.T) {
 	})
 
 	t.Run("Create new question without sID", func(t *testing.T) {
-		question := newQPluginModelTest("hi there")
+		question := NewQPluginModelTest("hi there")
 
 		_, err := NewQuestion(uuid.Nil, question)
 		if err == nil {

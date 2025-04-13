@@ -3,33 +3,10 @@ package models
 import (
 	"errors"
 	"github.com/google/uuid"
-	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
-func setup() (*gorm.DB, error) {
-	DB, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
-	if err != nil {
-		return nil, err
-	}
-
-	return DB, nil
-}
-
-func teardown(DB *gorm.DB) error {
-	var tables []string
-	DB.Raw("SELECT name FROM sqlite_master WHERE type='table';").Scan(&tables)
-
-	for _, table := range tables {
-		if err := DB.Migrator().DropTable(table); err != nil {
-			return err
-		}
-	}
-
-	return nil
-}
-
-func createTestUser(db *gorm.DB, name string) (*QuizMaster, error) {
+func CreateTestUser(db *gorm.DB, name string) (*QuizMaster, error) {
 	frodo, err := NewQuizMaster("Frodo Bagins", "1234")
 	if err != nil {
 		return nil, errors.New("failed to create new user")
@@ -43,7 +20,7 @@ func createTestUser(db *gorm.DB, name string) (*QuizMaster, error) {
 	return frodo, nil
 }
 
-func createTestQuiz(db *gorm.DB, qmID uuid.UUID, title string) (*Quiz, error) {
+func CreateTestQuiz(db *gorm.DB, qmID uuid.UUID, title string) (*Quiz, error) {
 	q, err := NewQuiz(qmID, "XX-XX-XX", title)
 	if err != nil {
 		return nil, errors.New("failed to create new quiz")
@@ -57,7 +34,7 @@ func createTestQuiz(db *gorm.DB, qmID uuid.UUID, title string) (*Quiz, error) {
 	return q, nil
 }
 
-func createTestSection(db *gorm.DB, qID uuid.UUID, title string) (*Section, error) {
+func CreateTestSection(db *gorm.DB, qID uuid.UUID, title string) (*Section, error) {
 	s, err := NewSection(qID, title, "")
 	if err != nil {
 		return nil, errors.New("failed to create new section")
@@ -71,22 +48,22 @@ func createTestSection(db *gorm.DB, qID uuid.UUID, title string) (*Section, erro
 	return s, nil
 }
 
-type qPluginModelTest struct {
+type QPluginModelTest struct {
 	ID   uuid.UUID
 	Text string
 }
 
-func newQPluginModelTest(text string) *qPluginModelTest {
-	return &qPluginModelTest{
+func NewQPluginModelTest(text string) *QPluginModelTest {
+	return &QPluginModelTest{
 		ID:   uuid.New(),
 		Text: text,
 	}
 }
 
-func (q *qPluginModelTest) GetType() string {
-	return "qPluginModelTest"
+func (q *QPluginModelTest) GetType() string {
+	return "QPluginModelTest"
 }
 
-func (q *qPluginModelTest) GetID() uuid.UUID {
+func (q *QPluginModelTest) GetID() uuid.UUID {
 	return q.ID
 }
