@@ -1,6 +1,7 @@
 package questions
 
 import (
+	"errors"
 	"github.com/SecretSheppy/quizzial/pkg/qplugins"
 	"github.com/SecretSheppy/quizzial/questions/multichoice"
 	"sync"
@@ -9,6 +10,8 @@ import (
 var (
 	once                        sync.Once
 	allQuestions                map[string]qplugins.QPlugin
+	allQPluginModels            map[string]qplugins.QPluginModel
+	ErrConflictingQuestionTypes = errors.New("conflicting question types")
 )
 
 // RegisteredPlugins is the array of all questions registered in the system. A hardcoded approach was chosen over the
@@ -26,6 +29,24 @@ func AllQuestions() map[string]qplugins.QPlugin {
 	})
 
 	return allQuestions
+}
+
+func RegisterQPluginModel(models ...qplugins.QPluginModel) error {
+	once.Do(func() {
+		allQPluginModels = make(map[string]qplugins.QPluginModel)
+	})
+
+	for _, model := range models {
+		if allQPluginModels[model.GetType()] != nil {
+			return ErrConflictingQuestionTypes
+		}
+
+		allQPluginModels[model.GetType()] = model
 	}
-	return questions
+
+	return nil
+}
+
+func AllQPluginModels() map[string]qplugins.QPluginModel {
+	return allQPluginModels
 }
