@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"github.com/SecretSheppy/quizzial/pkg/qplugins"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
@@ -51,6 +52,10 @@ func CreateTestSection(db *gorm.DB, qID uuid.UUID, title string) (*Section, erro
 type QPluginModelTest struct {
 	ID   uuid.UUID
 	Text string
+}
+
+func (q *QPluginModelTest) New() qplugins.QPluginModel {
+	return &QPluginModelTest{}
 }
 
 func NewQPluginModelTest(text string) *QPluginModelTest {

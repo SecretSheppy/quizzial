@@ -4,6 +4,8 @@ import (
 	"errors"
 	"github.com/SecretSheppy/quizzial/pkg/qplugins"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type Question struct {
@@ -30,4 +32,15 @@ func NewQuestion(sID uuid.UUID, question qplugins.QPluginModel) (*Question, erro
 	}
 
 	return q, nil
+}
+
+func (q *Question) GetQuestionModel(db *gorm.DB, types map[string]qplugins.QPluginModel) (qplugins.QPluginModel, error) {
+	model := types[q.QuestionableType].New()
+
+	result := db.Preload(clause.Associations).First(model, q.QuestionableID)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return model, nil
 }

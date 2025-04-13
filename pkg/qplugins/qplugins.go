@@ -16,6 +16,9 @@ type QPluginData struct {
 // this interface.
 type QPluginModel interface {
 
+	// New returns a new instance of the model
+	New() QPluginModel
+
 	// GetID returns the uuid of the question so that a polymorphic association can be created
 	GetID() uuid.UUID
 
