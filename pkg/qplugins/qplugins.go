@@ -1,6 +1,7 @@
 package qplugins
 
 import (
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 	"net/http"
 )
@@ -14,6 +15,9 @@ type QPluginData struct {
 // QPluginModel defines how QPlugin Question models should be implemented. All QPlugin Question models must implement
 // this interface.
 type QPluginModel interface {
+
+	// GetID returns the uuid of the question so that a polymorphic association can be created
+	GetID() uuid.UUID
 
 	// GetType returns the type of the model so that a polymorphic association can be created.
 	GetType() string
