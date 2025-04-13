@@ -70,3 +70,23 @@ func createTestSection(db *gorm.DB, qID uuid.UUID, title string) (*Section, erro
 
 	return s, nil
 }
+
+type qPluginModelTest struct {
+	ID   uuid.UUID
+	Text string
+}
+
+func newQPluginModelTest(text string) *qPluginModelTest {
+	return &qPluginModelTest{
+		ID:   uuid.New(),
+		Text: text,
+	}
+}
+
+func (q *qPluginModelTest) GetType() string {
+	return "qPluginModelTest"
+}
+
+func (q *qPluginModelTest) GetID() uuid.UUID {
+	return q.ID
+}
