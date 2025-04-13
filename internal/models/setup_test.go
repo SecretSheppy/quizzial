@@ -56,3 +56,17 @@ func createTestQuiz(db *gorm.DB, qmID uuid.UUID, title string) (*Quiz, error) {
 
 	return q, nil
 }
+
+func createTestSection(db *gorm.DB, qID uuid.UUID, title string) (*Section, error) {
+	s, err := NewSection(qID, title, "")
+	if err != nil {
+		return nil, errors.New("failed to create new section")
+	}
+
+	result := db.Create(&s)
+	if result.Error != nil {
+		return nil, errors.New("failed to store new section")
+	}
+
+	return s, nil
+}
