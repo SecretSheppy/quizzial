@@ -1,7 +1,6 @@
 package multichoice
 
 import (
-	"github.com/SecretSheppy/quizzial/internal/models"
 	"github.com/google/uuid"
 )
 
@@ -12,10 +11,19 @@ type Option struct {
 }
 
 type MultiChoiceQuestion struct {
-	models.Question
-	Options []Option `gorm:"foreignKey:QuestionID"`
+	MultiChoiceQuestionID uuid.UUID `gorm:"primaryKey"`
+	Text                  string
+	Options               []Option `gorm:"foreignKey:QuestionID"`
+}
+
+func NewMultiChoiceQuestion() *MultiChoiceQuestion {
+	return &MultiChoiceQuestion{}
 }
 
 func (m *MultiChoiceQuestion) GetType() string {
 	return "MultiChoiceQuestion"
+}
+
+func (m *MultiChoiceQuestion) GetID() uuid.UUID {
+	return m.MultiChoiceQuestionID
 }

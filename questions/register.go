@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/SecretSheppy/quizzial/pkg/qplugins"
 	"github.com/SecretSheppy/quizzial/questions/multichoice"
+	"gorm.io/gorm"
 	"sync"
 )
 
@@ -20,10 +21,23 @@ var registeredQuestions = []qplugins.QPlugin{
 	&multichoice.MultiChoice{},
 }
 
-func AllQuestions() map[string]qplugins.QPlugin {
+func AllQuestions(DB *gorm.DB) map[string]qplugins.QPlugin {
 	once.Do(func() {
 		allQuestions = make(map[string]qplugins.QPlugin)
+		allQPluginModels = make(map[string]qplugins.QPluginModel)
+
 		for _, plugin := range registeredQuestions {
+			plugin.Init(DB)
+
+			models := plugin.GetQPluginModels()
+			if err := registerQPluginModels(models); err != nil {
+				panic(err)
+			}
+
+			if err := plugin.Migrate(); err != nil {
+
+			}
+
 			allQuestions[plugin.Data().Name] = plugin
 		}
 	})
@@ -31,11 +45,7 @@ func AllQuestions() map[string]qplugins.QPlugin {
 	return allQuestions
 }
 
-func RegisterQPluginModel(models ...qplugins.QPluginModel) error {
-	once.Do(func() {
-		allQPluginModels = make(map[string]qplugins.QPluginModel)
-	})
-
+func registerQPluginModels(models []qplugins.QPluginModel) error {
 	for _, model := range models {
 		if allQPluginModels[model.GetType()] != nil {
 			return ErrConflictingQuestionTypes
