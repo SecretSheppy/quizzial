@@ -10,8 +10,8 @@ type Section struct {
 	QuizID      uuid.UUID `gorm:"not null"`
 	Title       string    `gorm:"not null"`
 	Description string
-	Cover       Resource   `gorm:"polymorphic:Resourcable;foreignkey:SectionID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	Questions   []Question `gorm:"polymorphic:Questionable;foreignkey:SectionID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Cover       SectionResource `gorm:"foreignkey:SectionID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Questions   []Question      `gorm:"polymorphic:Questionable;foreignkey:SectionID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 // NewSection does not require a Resource as quiz masters can just leave the title pages as plain text.
