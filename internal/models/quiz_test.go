@@ -23,14 +23,9 @@ func TestNewQuiz(t *testing.T) {
 		}
 	})
 
-	frodo, err := NewQuizMaster("Frodo Bagins", "1234")
+	frodo, err := createTestUser(db, "Frodo Bagins")
 	if err != nil {
-		t.Errorf("failed to create Frodo Bagins: %v", err)
-	}
-
-	result := db.Create(&frodo)
-	if result.Error != nil {
-		t.Error(result.Error)
+		t.Fatal(err)
 	}
 
 	t.Run("Create a new quiz", func(t *testing.T) {
