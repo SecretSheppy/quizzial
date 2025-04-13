@@ -8,8 +8,8 @@ import (
 func Migrator(db *gorm.DB) error {
 	return db.AutoMigrate(
 		&models.SectionResource{},
-		&models.QuestionResource{},
 		&models.QuizMaster{},
 		&models.Quiz{},
-		&models.Section{})
+		&models.Section{},
+		&models.Question{})
 }
