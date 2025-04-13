@@ -23,9 +23,11 @@ func (m *MultiChoice) Init(db *gorm.DB) {
 }
 
 func (m *MultiChoice) Migrate() error {
-	return m.DB.AutoMigrate(
-		&Option{},
-		&MultiChoiceQuestion{})
+	return m.DB.AutoMigrate(&Option{}, &MultiChoiceQuestion{})
+}
+
+func (m *MultiChoice) GetQPluginModels() []qplugins.QPluginModel {
+	return []qplugins.QPluginModel{&MultiChoiceQuestion{}}
 }
 
 func (m *MultiChoice) SaveQuestionHandler(w http.ResponseWriter, r *http.Request) {
