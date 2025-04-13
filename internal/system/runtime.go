@@ -13,7 +13,7 @@ func Runtime() {
 	}
 
 	DB := sdb.Get()
-	qs := questions.All()
+	qs := questions.AllQuestions()
 
 	for _, q := range qs {
 		q.Init(DB)

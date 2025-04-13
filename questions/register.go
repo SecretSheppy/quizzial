@@ -3,6 +3,12 @@ package questions
 import (
 	"github.com/SecretSheppy/quizzial/pkg/qplugins"
 	"github.com/SecretSheppy/quizzial/questions/multichoice"
+	"sync"
+)
+
+var (
+	once                        sync.Once
+	allQuestions                map[string]qplugins.QPlugin
 )
 
 // RegisteredPlugins is the array of all questions registered in the system. A hardcoded approach was chosen over the
@@ -11,10 +17,15 @@ var registeredQuestions = []qplugins.QPlugin{
 	&multichoice.MultiChoice{},
 }
 
-func All() map[string]qplugins.QPlugin {
-	var questions = make(map[string]qplugins.QPlugin)
-	for _, plugin := range registeredQuestions {
-		questions[plugin.Data().Name] = plugin
+func AllQuestions() map[string]qplugins.QPlugin {
+	once.Do(func() {
+		allQuestions = make(map[string]qplugins.QPlugin)
+		for _, plugin := range registeredQuestions {
+			allQuestions[plugin.Data().Name] = plugin
+		}
+	})
+
+	return allQuestions
 	}
 	return questions
 }
