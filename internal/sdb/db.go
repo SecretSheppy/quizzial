@@ -1,7 +1,6 @@
 package sdb
 
 import (
-	"github.com/SecretSheppy/quizzial/internal/models"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"os"
@@ -21,7 +20,7 @@ func Get() *gorm.DB {
 			panic(err)
 		}
 
-		err = migrate(db)
+		err = Migrator(db)
 		if err != nil {
 			panic(err)
 		}
@@ -36,13 +35,4 @@ func dbname() string {
 		dbname = os.Getenv("DB_DATABASE_DEVELOPMENT")
 	}
 	return dbname
-}
-
-func migrate(db *gorm.DB) error {
-	return db.AutoMigrate(
-		&models.SectionResource{},
-		&models.QuestionResource{},
-		&models.QuizMaster{},
-		&models.Quiz{},
-		&models.Section{})
 }
